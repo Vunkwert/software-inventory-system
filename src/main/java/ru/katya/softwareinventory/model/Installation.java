@@ -12,6 +12,18 @@ public class Installation {
     public Installation() {}
 
     public Long getId() { return id; }
+
+    @Override
+    public String toString() {
+        return "Installation{" +
+                "id=" + id +
+                ", computerId=" + computerId +
+                ", softwareId=" + softwareId +
+                ", licenseId=" + licenseId +
+                ", installedAt=" + installedAt +
+                '}';
+    }
+
     public void setId(Long id) { this.id = id; }
 
     public Long getComputerId() { return computerId; }

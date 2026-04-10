@@ -14,6 +14,17 @@ public class License {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    @Override
+    public String toString() {
+        return "License{" +
+                "id=" + id +
+                ", softwareId=" + softwareId +
+                ", licenseKey='" + licenseKey + '\'' +
+                ", licenseType='" + licenseType + '\'' +
+                ", expiryDate=" + expiryDate +
+                '}';
+    }
+
     public Long getSoftwareId() { return softwareId; }
     public void setSoftwareId(Long softwareId) { this.softwareId = softwareId; }
 

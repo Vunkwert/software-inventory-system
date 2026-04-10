@@ -22,6 +22,19 @@ public class Computer {
     public String getInventoryNumber() { return inventoryNumber; }
     public void setInventoryNumber(String inventoryNumber) { this.inventoryNumber = inventoryNumber; }
 
+    @Override
+    public String toString() {
+        return "Computer{" +
+                "id=" + id +
+                ", roomId=" + roomId +
+                ", inventoryNumber='" + inventoryNumber + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", cpuInfo='" + cpuInfo + '\'' +
+                ", ramGb=" + ramGb +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
     public String getIpAddress() { return ipAddress; }
     public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
 

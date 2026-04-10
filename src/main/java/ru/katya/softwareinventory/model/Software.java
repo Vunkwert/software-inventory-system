@@ -15,6 +15,17 @@ public class Software {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
+    @Override
+    public String toString() {
+        return "Software{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                ", categoryId=" + categoryId +
+                ", vendor='" + vendor + '\'' +
+                '}';
+    }
+
     public String getVersion() { return version; }
     public void setVersion(String version) { this.version = version; }
 
