@@ -1,8 +1,13 @@
 package ru.katya.softwareinventory;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import ru.katya.softwareinventory.repository.DatabaseManager;
+
+import java.io.IOException;
 
 /**
  * Контроллер окна аутентификации.
@@ -19,15 +24,20 @@ public class AuthController {
         String pass = passwordField.getText();
 
         if (DatabaseManager.login(user, pass)) {
-            // Если вход успешен, пока просто выводим сообщение.
-            // В следующем блоке мы заменим это на открытие главного окна.
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Успех");
-            alert.setHeaderText(null);
-            alert.setContentText("Вы успешно вошли в СУБД под пользователем " + user);
-            alert.showAndWait();
-        } else {
-            errorLabel.setText("Ошибка входа: неверный логин или пароль");
+            try {
+                // Загружаем главное окно
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+                Scene scene = new Scene(loader.load());
+
+                // Получаем текущую стадию (окно входа) и меняем её на главную
+                Stage stage = (Stage) usernameField.getScene().getWindow();
+                stage.setTitle("Система учета ПО - Главное меню");
+                stage.setScene(scene);
+                stage.setResizable(true); // Главное окно можно растягивать
+                stage.centerOnScreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
