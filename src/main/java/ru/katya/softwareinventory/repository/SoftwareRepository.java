@@ -27,4 +27,28 @@ public class SoftwareRepository {
             e.printStackTrace();
         }
     }
+    public javafx.collections.ObservableList<ru.katya.softwareinventory.model.Software> getAllSoftware() {
+        javafx.collections.ObservableList<ru.katya.softwareinventory.model.Software> softwareList = javafx.collections.FXCollections.observableArrayList();
+        String sql = "SELECT * FROM software ORDER BY name";
+
+        try {
+            java.sql.Connection conn = ru.katya.softwareinventory.repository.DatabaseManager.getConnection();
+            java.sql.Statement stmt = conn.createStatement();
+            java.sql.ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                ru.katya.softwareinventory.model.Software s = new ru.katya.softwareinventory.model.Software();
+                s.setId(rs.getLong("id"));
+                s.setName(rs.getString("name"));
+                s.setVersion(rs.getString("version"));
+                s.setVendor(rs.getString("vendor"));
+                softwareList.add(s);
+            }
+            rs.close();
+            stmt.close();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return softwareList;
+    }
 }

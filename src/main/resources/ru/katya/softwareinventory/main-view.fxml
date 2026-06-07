@@ -39,22 +39,17 @@
                         </HBox>
                     </VBox>
                 </Tab>
-                <Tab text="Программное обеспечение">
-                    <Label text="Раздел ПО (в разработке)" style="-fx-padding: 20;"/>
-                </Tab>
-                <Tab text="Отчеты и Аудит">
+                <Tab text="Реестр ПО">
                     <VBox spacing="10" style="-fx-padding: 10;">
-                        <Label text="Журнал системного аудита (п. 3.4 ТЗ)" style="-fx-font-weight: bold;"/>
-                        <TableView fx:id="auditTable" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="softwareTable" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="auditIdCol" text="ID" prefWidth="50"/>
-                                <TableColumn fx:id="auditUserCol" text="Пользователь" prefWidth="120"/>
-                                <TableColumn fx:id="auditOpCol" text="Операция" prefWidth="100"/>
-                                <TableColumn fx:id="auditTableCol" text="Таблица" prefWidth="120"/>
-                                <TableColumn fx:id="auditTimeCol" text="Дата и время" prefWidth="180"/>
+                                <TableColumn fx:id="softIdCol" text="ID" prefWidth="50"/>
+                                <TableColumn fx:id="softNameCol" text="Название" prefWidth="250"/>
+                                <TableColumn fx:id="softVersionCol" text="Версия" prefWidth="150"/>
+                                <TableColumn fx:id="softVendorCol" text="Разработчик" prefWidth="200"/>
                             </columns>
                         </TableView>
-                        <Button text="Обновить журнал" onAction="#onRefreshAudit"/>
+                        <Button text="Обновить список ПО" onAction="#onRefreshSoftware"/>
                     </VBox>
                 </Tab>
             </tabs>

@@ -2,25 +2,31 @@ package ru.katya.softwareinventory.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Properties;
+import java.io.InputStream;
 
-/**
- * Класс для управления подключением к СУБД PostgreSQL.
- * Реализует аутентификацию через механизмы СУБД (п. 3.3 ТЗ).
- */
 public class DatabaseManager {
     private static final String URL = "jdbc:postgresql://localhost:5432/software_inventory";
     private static Connection connection;
+    private static Properties queries = new Properties();
 
-    /**
-     * Пытается установить соединение с БД под конкретным пользователем.
-     */
+    static {
+        // Загружаем SQL запросы при старте программы
+        try (InputStream input = DatabaseManager.class.getClassLoader().getResourceAsStream("queries.properties")) {
+            if (input != null) queries.load(input);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public static String getQuery(String key) {
+        return queries.getProperty(key);
+    }
+
     public static boolean login(String username, String password) {
         try {
             connection = DriverManager.getConnection(URL, username, password);
+            ru.katya.softwareinventory.AppLogger.info("Пользователь " + username + " успешно вошел в систему.");
             return true;
-        } catch (SQLException e) {
-            System.err.println("Ошибка аутентификации в СУБД: " + e.getMessage());
+        } catch (Exception e) {
             return false;
         }
     }
