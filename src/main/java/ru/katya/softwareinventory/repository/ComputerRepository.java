@@ -15,9 +15,10 @@ public class ComputerRepository {
         ObservableList<Computer> computers = FXCollections.observableArrayList();
         String sql = "SELECT * FROM computers ORDER BY id";
 
-        try (Connection conn = DatabaseManager.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try {
+            Connection conn = DatabaseManager.getConnection(); // Просто берем, не закрываем
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 Computer pc = new Computer();
@@ -28,6 +29,9 @@ public class ComputerRepository {
                 pc.setRamGb(rs.getInt("ram_gb"));
                 computers.add(pc);
             }
+            // Закрываем только временные объекты
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

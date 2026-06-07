@@ -1,6 +1,7 @@
 package ru.katya.softwareinventory.repository;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -12,13 +13,15 @@ public class SoftwareRepository {
      * Вызывает хранимую процедуру для массовой установки ПО в аудитории.
      */
     public void installSoftwareToRoom(int roomId, int softwareId) {
-        // Синтаксис вызова процедуры: {call имя_процедуры(?, ?)}
         String sql = "{call add_software_to_room(?, ?)}";
 
-        try (CallableStatement stmt = DatabaseManager.getConnection().prepareCall(sql)) {
+        try {
+            Connection conn = DatabaseManager.getConnection();
+            CallableStatement stmt = conn.prepareCall(sql);
             stmt.setInt(1, roomId);
             stmt.setInt(2, softwareId);
             stmt.execute();
+            stmt.close();
             System.out.println("Процедура успешно выполнена в БД");
         } catch (SQLException e) {
             e.printStackTrace();
