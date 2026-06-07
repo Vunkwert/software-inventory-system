@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import ru.katya.softwareinventory.model.Computer;
+import ru.katya.softwareinventory.repository.ComputerRepository;
 
 public class MainController {
     @FXML private TableView<Computer> computerTable;
@@ -14,10 +16,24 @@ public class MainController {
     @FXML private TableColumn<Computer, String> cpuCol;
     @FXML private TableColumn<Computer, Integer> ramCol;
 
+    private final ComputerRepository repository = new ComputerRepository();
+
+    @FXML
+    public void initialize() {
+        // Указываем, какие поля из класса Computer брать для каждой колонки
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        invCol.setCellValueFactory(new PropertyValueFactory<>("inventoryNumber"));
+        ipCol.setCellValueFactory(new PropertyValueFactory<>("ipAddress"));
+        cpuCol.setCellValueFactory(new PropertyValueFactory<>("cpuInfo"));
+        ramCol.setCellValueFactory(new PropertyValueFactory<>("ramGb"));
+
+        // Сразу подгружаем данные при открытии окна
+        onRefreshComputers();
+    }
+
     @FXML
     public void onRefreshComputers() {
-        // Здесь мы позже напишем код загрузки данных из БД
-        System.out.println("Обновление списка компьютеров...");
+        computerTable.setItems(repository.getAllComputers());
     }
 
     @FXML
