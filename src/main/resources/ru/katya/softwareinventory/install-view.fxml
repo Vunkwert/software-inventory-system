@@ -7,18 +7,18 @@
       fx:controller="ru.katya.softwareinventory.InstallController" prefWidth="350">
     <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
-    <Label text="Массовая установка ПО" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
-    <Label text="Процедура установит выбранное ПО на все ПК в аудитории" wrapText="true" textAlignment="CENTER"/>
+    <Label text="%install.header" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+    <Label text="%install.desc" wrapText="true" textAlignment="CENTER"/>
 
     <GridPane hgap="10" vgap="10">
-        <Label text="ID программы:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label text="%install.soft_id" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <TextField fx:id="softwareIdField" text="1" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-        <Label text="ID аудитории:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="%install.room_id" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <TextField fx:id="roomIdField" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
     </GridPane>
 
-    <Button text="Запустить установку в БД" onAction="#onStartInstall" prefWidth="250"
+    <Button fx:id="runInstallBtn" text="%install.btn_run" onAction="#onStartInstall" prefWidth="250"
             style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
-    <Button text="Отмена" onAction="#onClose" prefWidth="250"/>
+    <Button text="%install.btn_cancel" onAction="#onClose" prefWidth="250"/>
 </VBox>

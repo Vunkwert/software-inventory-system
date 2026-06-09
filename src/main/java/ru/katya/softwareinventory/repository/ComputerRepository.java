@@ -2,6 +2,7 @@ package ru.katya.softwareinventory.repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import ru.katya.softwareinventory.AppLogger;
 import ru.katya.softwareinventory.model.Computer;
 
 import java.sql.Connection;
@@ -13,10 +14,12 @@ public class ComputerRepository {
 
     public ObservableList<Computer> getAllComputers() {
         ObservableList<Computer> computers = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM computers ORDER BY id";
+
+        // БЕРЕМ ЗАПРОС ИЗ ФАЙЛА (там где JOIN с аудиториями)
+        String sql = DatabaseManager.getQuery("sql.computers.getAll");
 
         try {
-            Connection conn = DatabaseManager.getConnection(); // Просто берем, не закрываем
+            Connection conn = DatabaseManager.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -27,12 +30,17 @@ public class ComputerRepository {
                 pc.setIpAddress(rs.getString("ip_address"));
                 pc.setCpuInfo(rs.getString("cpu_info"));
                 pc.setRamGb(rs.getInt("ram_gb"));
+                pc.setEmployeeName(rs.getString("emp_name"));
+
+                // Теперь эта колонка точно будет в результате!
+                pc.setRoomNumber(rs.getString("room_number"));
+
                 computers.add(pc);
             }
-            // Закрываем только временные объекты
             rs.close();
             stmt.close();
         } catch (SQLException e) {
+            AppLogger.info("ОШИБКА загрузки ПК: " + e.getMessage());
             e.printStackTrace();
         }
         return computers;

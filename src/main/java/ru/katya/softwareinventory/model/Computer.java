@@ -10,6 +10,10 @@ public class Computer {
     private String cpuInfo;
     private Integer ramGb;
     private LocalDateTime updatedAt;
+    private String roomNumber;
+    private String employeeName;
+    public String getEmployeeName() { return employeeName; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
 
     public Computer() {}
 
@@ -21,6 +25,9 @@ public class Computer {
 
     public String getInventoryNumber() { return inventoryNumber; }
     public void setInventoryNumber(String inventoryNumber) { this.inventoryNumber = inventoryNumber; }
+
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
 
     @Override
     public String toString() {

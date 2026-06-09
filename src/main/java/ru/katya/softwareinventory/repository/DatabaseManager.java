@@ -1,5 +1,7 @@
 package ru.katya.softwareinventory.repository;
 
+import java.io.FileInputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -33,5 +35,15 @@ public class DatabaseManager {
 
     public static Connection getConnection() {
         return connection;
+    }
+    public void loadQueries() {
+        try {
+            Properties properties = new Properties();
+            URL url = getClass().getResource("/queries.properties");
+            properties.load(new FileInputStream(url.getFile()));
+            // Теперь можно брать запросы: properties.getProperty("sql.find_all")
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

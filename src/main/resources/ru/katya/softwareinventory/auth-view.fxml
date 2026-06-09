@@ -10,16 +10,17 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label text="Вход в систему учета ПО">
+    <!-- Используем ключ %auth.header вместо "Вход в систему" -->
+    <Label text="%auth.header">
         <font>
             <Font name="System Bold" size="18.0" />
         </font>
     </Label>
 
-    <TextField fx:id="usernameField" promptText="Логин СУБД" text="postgres"/>
-    <PasswordField fx:id="passwordField" promptText="Пароль"/>
+    <TextField fx:id="usernameField" promptText="%auth.login" />
+    <PasswordField fx:id="passwordField" promptText="%auth.pass" />
 
-    <Button text="Войти" onAction="#onLoginButtonClick" prefWidth="150" style="-fx-base: #2ecc71;"/>
+    <Button fx:id="loginBtn" text="%auth.button" onAction="#onLoginButtonClick" prefWidth="150" style="-fx-base: #2ecc71;"/>
 
     <Label fx:id="errorLabel" textFill="RED" />
 </VBox>

@@ -7,11 +7,11 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu text="Файл">
-                    <MenuItem text="Выход" onAction="#onExitClick"/>
+                <Menu text="%menu.file">
+                    <MenuItem text="%menu.exit" onAction="#onExitClick"/>
                 </Menu>
-                <Menu text="Справка">
-                    <MenuItem text="О программе"/>
+                <Menu text="%menu.help">
+                    <MenuItem text="%menu.help" onAction="#onAboutClick"/>
                 </Menu>
             </menus>
         </MenuBar>
@@ -19,37 +19,80 @@
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
-                <Tab text="Компьютеры">
+                <!-- Вкладка Компьютеры -->
+                <Tab text="%main.tab.computers">
                     <VBox spacing="10" style="-fx-padding: 10;">
-                        <TableView fx:id="computerTable" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn fx:id="idCol" text="ID" prefWidth="50"/>
-                                <TableColumn fx:id="invCol" text="Инв. номер" prefWidth="150"/>
-                                <TableColumn fx:id="ipCol" text="IP адрес" prefWidth="150"/>
-                                <TableColumn fx:id="cpuCol" text="Процессор" prefWidth="200"/>
-                                <TableColumn fx:id="ramCol" text="ОЗУ (ГБ)" prefWidth="100"/>
-                            </columns>
-                        </TableView>
-                        <HBox spacing="10">
-                            <Button text="Обновить данные" onAction="#onRefreshComputers"/>
+                        <SplitPane dividerPositions="0.6" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                            <items>
+                                <!-- Верхняя часть: Таблица компьютеров -->
+                                <VBox spacing="5">
+                                    <TableView fx:id="computerTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="idCol" text="%col.id" prefWidth="50"/>
+                                            <TableColumn fx:id="roomCol" text="%install.room_id" prefWidth="100"/>
+                                            <TableColumn fx:id="empCol" text="Сотрудник" prefWidth="150"/>
+                                            <TableColumn fx:id="invCol" text="%col.inv" prefWidth="150"/>
+                                            <TableColumn fx:id="ipCol" text="%col.ip" prefWidth="150"/>
+                                            <TableColumn fx:id="cpuCol" text="%col.specs" prefWidth="200"/>
+                                            <TableColumn fx:id="ramCol" text="%col.ram" prefWidth="100"/>
+                                        </columns>
+                                    </TableView>
+                                </VBox>
 
-                            <Button text="Добавить ПО на ПК"
-                                    style="-fx-base: #3498db;"
-                                    onAction="#onAddSoftwareClick"/>
+                                <!-- Нижняя часть: Установленное ПО на выбранном ПК -->
+                                <VBox spacing="5">
+                                    <Label text="%main.lbl.details" style="-fx-font-weight: bold;"/>
+                                    <TableView fx:id="detailsTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="detNameCol" text="%col.soft_name" prefWidth="300"/>
+                                            <TableColumn fx:id="detVerCol" text="%col.soft_ver" prefWidth="150"/>
+                                            <TableColumn fx:id="detVendorCol" text="%col.soft_vendor" prefWidth="200"/>
+                                        </columns>
+                                    </TableView>
+                                </VBox>
+                            </items>
+                        </SplitPane>
+
+                        <HBox spacing="10">
+                            <Button text="%btn.refresh" onAction="#onRefreshComputers"/>
+                            <Button  fx:id="addSoftBtn" text="%btn.add_soft" onAction="#onAddSoftwareClick" style="-fx-base: #3498db; -fx-text-fill: white;"/>
                         </HBox>
                     </VBox>
                 </Tab>
-                <Tab text="Реестр ПО">
+
+                <!-- Вкладка Реестр ПО -->
+                <Tab text="%main.tab.software">
                     <VBox spacing="10" style="-fx-padding: 10;">
                         <TableView fx:id="softwareTable" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="softIdCol" text="ID" prefWidth="50"/>
-                                <TableColumn fx:id="softNameCol" text="Название" prefWidth="250"/>
-                                <TableColumn fx:id="softVersionCol" text="Версия" prefWidth="150"/>
-                                <TableColumn fx:id="softVendorCol" text="Разработчик" prefWidth="200"/>
+                                <TableColumn fx:id="softIdCol" text="%col.id" prefWidth="50"/>
+                                <TableColumn fx:id="softNameCol" text="%col.soft_name" prefWidth="250"/>
+                                <TableColumn fx:id="softVersionCol" text="%col.soft_ver" prefWidth="150"/>
+                                <TableColumn fx:id="softVendorCol" text="%col.soft_vendor" prefWidth="200"/>
                             </columns>
                         </TableView>
-                        <Button text="Обновить список ПО" onAction="#onRefreshSoftware"/>
+                        <Button text="%btn.refresh" onAction="#onRefreshSoftware"/>
+                    </VBox>
+                </Tab>
+
+                <!-- Вкладка Отчеты -->
+                <Tab text="%main.tab.reports">
+                    <VBox spacing="10" style="-fx-padding: 10;">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="%lbl.report_type"/>
+                            <ComboBox fx:id="reportTypeCombo" prefWidth="150"/>
+                            <Label text="%lbl.value"/>
+                            <TextField fx:id="reportParamField" prefWidth="150"/>
+                            <Button text="%btn.generate" onAction="#onGenerateReport" style="-fx-base: #2ecc71;"/>
+                        </HBox>
+                        <TableView fx:id="reportTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="repRoomCol" text="%main.tab.computers" prefWidth="120"/>
+                                <TableColumn fx:id="repSoftCol" text="%main.tab.software" prefWidth="200"/>
+                                <TableColumn fx:id="repVerCol" text="%col.soft_ver" prefWidth="100"/>
+                                <TableColumn fx:id="repPcCol" text="%col.inv" prefWidth="150"/>
+                            </columns>
+                        </TableView>
                     </VBox>
                 </Tab>
             </tabs>

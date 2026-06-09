@@ -2,34 +2,43 @@ package ru.katya.softwareinventory.repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import ru.katya.softwareinventory.model.AuditLog;
+import ru.katya.softwareinventory.model.ReportItem;
+import ru.katya.softwareinventory.AppLogger;
 
 import java.sql.*;
 
 public class ReportRepository {
-    public ObservableList<AuditLog> getAuditLogs() {
-        ObservableList<AuditLog> logs = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM audit_logs ORDER BY created_at DESC";
+
+    public ObservableList<ReportItem> generateSoftwareReport(String queryKey, String param) {
+        ObservableList<ReportItem> report = FXCollections.observableArrayList();
+        String sql = DatabaseManager.getQuery(queryKey);
 
         try {
+            // Берем соединение, но НЕ используем try-with-resources для него!
             Connection conn = DatabaseManager.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, param);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                AuditLog log = new AuditLog();
-                log.setId(rs.getLong("id"));
-                log.setUserName(rs.getString("user_name"));
-                log.setOperation(rs.getString("operation"));
-                log.setTableName(rs.getString("table_name"));
-                log.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-                logs.add(log);
+                report.add(new ReportItem(
+                        rs.getString("room"),
+                        rs.getString("soft"),
+                        rs.getString("version"),
+                        rs.getString("pc")
+                ));
             }
+
+            // Закрываем только временные объекты (курсоры)
             rs.close();
-            stmt.close();
+            pstmt.close();
+
+            AppLogger.info("Сформирован отчет [" + queryKey + "] по параметру: " + param);
         } catch (SQLException e) {
+            AppLogger.info("ОШИБКА отчета: " + e.getMessage());
             e.printStackTrace();
         }
-        return logs;
+        return report;
     }
 }
